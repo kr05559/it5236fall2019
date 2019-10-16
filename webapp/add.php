@@ -33,24 +33,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 		$finBy = $_POST['finBy'];
 	}
 
-	if (!$dbconnecterror) {
-		try {
-			$sql = "INSERT INTO doList (complete, listItem, finishDate) VALUES (:complete, :listItem, :finishDate)";
-			$stmt = $dbh->prepare($sql);			
-			$stmt->bindParam(":complete", $complete);
-			$stmt->bindParam(":listItem", $_POST['listItem']);
-			$stmt->bindParam(":finishDate", $finBy);
-			$response = $stmt->execute();	
-			
-			header("Location: index.php");
-			
-		} catch (PDOException $e) {
+	
+		if (!$dbconnecterror) {
+			try {
+				$sql = "INSERT INTO doList (complete, listItem, finishDate) VALUES (:complete, :listItem, :finishDate)";
+				$stmt = $dbh->prepare($sql);			
+				$stmt->bindParam(":complete", $complete);
+				$stmt->bindParam(":listItem", $_POST['listItem']);
+				$stmt->bindParam(":finishDate", $finBy);
+				$response = $stmt->execute();	
+				
+				header("Location: index.php");
+				
+			} catch (PDOException $e) {
+				header("Location: index.php?error=add");
+			}	
+		} else {
 			header("Location: index.php?error=add");
-		}	
-	} else {
-		header("Location: index.php?error=add");
-	}
+		}
+
+	
 }
-
-
 ?>

@@ -23,24 +23,25 @@ try{
 	$dbconnecterror = TRUE;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-	if (!$dbconnecterror) {
-		try {
-			$sql = "DELETE FROM doList where listID = :listID";
-			$stmt = $dbh->prepare($sql);			
-			$stmt->bindParam(":listID", $_POST['listID']);
-		
-			$response = $stmt->execute();	
+	if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	
+		if (!$dbconnecterror) {
+			try {
+				$sql = "DELETE FROM doList where listID = :listID";
+				$stmt = $dbh->prepare($sql);			
+				$stmt->bindParam(":listID", $_POST['listID']);
 			
-			header("Location: index.php");
-			
-		} catch (PDOException $e) {
+				$response = $stmt->execute();	
+				
+				header("Location: index.php");
+				
+			} catch (PDOException $e) {
+				header("Location: index.php?error=delete");
+			}	
+		} else {
 			header("Location: index.php?error=delete");
-		}	
-	} else {
-		header("Location: index.php?error=delete");
-	}
+		}
+
 }
 
 
